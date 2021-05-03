@@ -5,12 +5,15 @@ def read(file):
     try:
         with open(file) as f:
             data = json.load(f)
-            f.close()
     except FileNotFoundError:
         data = {}
-    return data
+    finally:
+        print('Data is loaded.')
+        return data
 #Save a dictionary value as a json file.
-def save(data,file):
-    f = open(file, 'w')
-    f.write(json.dunps(data))
-    f.close()    
+def save(data):
+    try:
+        with open('%s_%s.json'%(data['cat'],data['ty']), 'w') as f:
+            f.write(json.dumps(data))
+    finally:
+        print('Data is saved.')

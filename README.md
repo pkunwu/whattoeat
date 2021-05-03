@@ -10,6 +10,7 @@ There are several goals of this program. They are given as follows:
     <ul>
         <li>Keep track of the remaining food, including:
             <ul>
+                <li>category</li>
                 <li>types</li>
                 <li>quantities,</li>
                 <li>expiration dates,</li>
