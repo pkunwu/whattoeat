@@ -11,8 +11,9 @@ from datetime import date as d
 from datetime import datetime
 
 class Food(object):
-    def __init__(self, *, cat, ty, quan, unit, date, nutri, other):
+    def __init__(self, ID = 'null', *, cat, ty, quan, unit, date, nutri, other):
         #No access to users
+        self.__ID = ID
         self.__cat = cat #entree, meat, vegetable, spices,
         self.__ty = ty 
         self.__quan = quan #quan = quantity, quantity with float value,
@@ -20,6 +21,18 @@ class Food(object):
         self.__date = date #date = [year, month, day] with int values.
         self.__nutri = nutri #nutri = {nutrition fact: [float, unit]}
         self.__other = other         
+
+#get method to have access to the attributions.
+    def get(self):
+        return {
+            'ID':self.__ID, 
+            'cat':self.__cat,
+            'ty':self.__ty,
+            'quan':self.__quan,
+            'unit':self.__unit,
+            'date':self.__date,
+            'nutri':self.__nutri,
+            'other':self.__other}
 
 #Update food status.
     def update(self, **kw):
@@ -55,12 +68,13 @@ class Food(object):
             return -(d(datetime.now().year, datetime.now().month, datetime.now().day)-d(self.__date[0], self.__date[1], self.__date[2])).days
 
 #Warn the users on the low quantity and coming expiration date.
-    def warnings(self): #accept quan, 
-            if self.__quan < 1:
-                return 'Refill %s. There is %s %s remaining.' %(self.__ty+' '+self.__cat, self.__quan, self.__unit)
-            if (self.__cat not in ('meat', 'vegetable')) and (self.remaining_days()<5):
-                return 'Refill %s. The expiration date is coming in %s days.' %(self.__ty+' '+self.__cat, self.remaining_days())
-            if (self.__cat = 'vegetable') and (self.remaining_days()>3):
-                return 'It has been %s days since you bought %s. Use it as soon as possible.' %(self.__remaining_days(), self.__ty)
-            if (self.__cat = 'meat') and (self.remaining_days()>5):
-                return 'It has been %s days since you bought %s. Use it as soon as possible.' %(self.__remaining_days(), self.__ty)
+    def warnings(self): 
+        if self.__quan < 1:
+            return 'Refill %s. There is %s %s remaining.' %(self.__ty+' '+self.__cat, self.__quan, self.__unit)
+        if (self.__cat not in ('meat', 'vegetable')) and (self.remaining_days()<5):
+            return 'Refill %s. The expiration date is coming in %s days.' %(self.__ty+' '+self.__cat, self.remaining_days())
+        if (self.__cat == 'vegetable') and (self.remaining_days()>3):
+            return 'It has been %s days since you bought %s. Use it as soon as possible.' %(self.__remaining_days(), self.__ty)
+        if (self.__cat == 'meat') and (self.remaining_days()>5):
+            return 'It has been %s days since you bought %s. Use it as soon as possible.' %(self.__remaining_days(), self.__ty)
+        
